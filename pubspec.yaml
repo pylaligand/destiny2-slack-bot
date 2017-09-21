@@ -3,6 +3,7 @@ author: P.Y. Laligand
 version: 0.0.1
 description: A Slack bot for Destiny2 communities.
 dependencies:
+  dartson: 0.2.7
   destiny2_api:
     git:
       url: https://github.com/pylaligand/destiny2-dart-api-client.git
@@ -11,3 +12,8 @@ dependencies:
     git:
       url: https://github.com/pylaligand/heroku-slack-bot.git
       ref: master
+dev_dependencies:
+  json_schema: 1.0.6
+  path: 1.4.2
+transformers:
+  - dartson
