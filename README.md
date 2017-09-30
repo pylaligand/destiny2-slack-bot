@@ -1,6 +1,6 @@
 # Destiny 2 Slack bot
 
-This bot is built using the [Dart Heroku Slack bot package](pylaligand/heroku-slack-bot).
+This bot is built using the [Dart Heroku Slack bot package](https://www.github.com/pylaligand/heroku-slack-bot).
 It best serves Titans.
 
 # Configuration
