@@ -4,6 +4,7 @@ import 'package:heroku_slack_bot/heroku_slack_bot.dart';
 import 'package:logging/logging.dart';
 
 import '../lib/commands/online_handler.dart';
+import '../lib/commands/roster_handler.dart';
 import '../lib/middleware/config_provider.dart';
 
 const String BOT_CONFIG = 'BOT_CONFIG';
@@ -18,6 +19,7 @@ class Config extends ServerConfig {
   @override
   Map<String, SlackCommandHandler> loadCommands(Map<String, String> env) => {
         'online': new OnlineHandler(),
+        'roster': new RosterHandler(),
       };
 
   @override
