@@ -42,9 +42,13 @@ class RosterHandler extends SlackCommandHandler {
     final nNotPlaying = nonD2Members.length;
     _log.info('Found $nNotPlaying non-playing member(s)');
     nonD2Members.sort();
-    return createTextResponse('Out of $nPlaying clan members, ' +
-        '$nNotPlaying haven\'t played D2 yet:\n' +
-        '```${nonD2Members.join('\n')}```');
+    if (nonD2Members.isEmpty) {
+      return createTextResponse('All $nPlaying members have played D2!');
+    } else {
+      return createTextResponse('Out of $nPlaying clan members, ' +
+          '$nNotPlaying haven\'t played D2 yet:\n' +
+          '```${nonD2Members.join('\n')}```');
+    }
   }
 
   Future<DateTime> _getLastTimePlayed(
