@@ -23,13 +23,13 @@ class RosterHandler extends SlackCommandHandler {
       return createTextResponse('Sorry, I do not know the requested platform!');
     }
     final BotConfig config = params[param.CONFIG];
-    if (!config.clanIds.containsKey(platform)) {
+    if (!config.clans.containsKey(platform)) {
       return createTextResponse(
           'Sorry, the clan for this platform does not exist!');
     }
     final apiClient = new ApiClient()
       ..addDefaultHeader('X-API-Key', config.apiKey);
-    final members = await _getAllMembers(apiClient, config.clanIds[platform]);
+    final members = await _getAllMembers(apiClient, config.clans[platform].id);
     final nPlaying = members.length;
     _log.info('Found $nPlaying member(s) in the clan');
     final nonD2Members = <String>[];

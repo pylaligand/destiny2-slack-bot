@@ -3,28 +3,31 @@
 import 'package:heroku_slack_bot/heroku_slack_bot.dart';
 import 'package:logging/logging.dart';
 
+import '../lib/environment.dart' as env;
+import '../lib/commands/clan_handler.dart';
 import '../lib/commands/online_handler.dart';
 import '../lib/commands/roster_handler.dart';
 import '../lib/middleware/config_provider.dart';
-
-const String BOT_CONFIG = 'BOT_CONFIG';
 
 class Config extends ServerConfig {
   @override
   String get name => 'Destiny2SlackBot';
 
   @override
-  List<String> get environmentVariables => const [BOT_CONFIG];
+  List<String> get environmentVariables => env.ALL;
 
   @override
-  Map<String, SlackCommandHandler> loadCommands(Map<String, String> env) => {
+  Map<String, SlackCommandHandler> loadCommands(
+          Map<String, String> environment) =>
+      {
+        'clan': new ClanHandler(),
         'online': new OnlineHandler(),
         'roster': new RosterHandler(),
       };
 
   @override
-  List<Middleware> loadMiddleware(Map<String, String> env) => [
-        ConfigProvider.get(env[BOT_CONFIG]),
+  List<Middleware> loadMiddleware(Map<String, String> environment) => [
+        ConfigProvider.get(environment[env.BOT_CONFIG]),
       ];
 
   @override

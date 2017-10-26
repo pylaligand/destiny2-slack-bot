@@ -23,12 +23,12 @@ class OnlineHandler extends SlackCommandHandler {
       return createTextResponse('Sorry, I do not know the requested platform!');
     }
     final BotConfig config = params[param.CONFIG];
-    if (!config.clanIds.containsKey(platform)) {
+    if (!config.clans.containsKey(platform)) {
       return createTextResponse(
           'Sorry, the clan for this platform does not exist!');
     }
     final members =
-        await _getOnlineMembers(config.apiKey, config.clanIds[platform]);
+        await _getOnlineMembers(config.apiKey, config.clans[platform].id);
     members.sort();
     _log.info('Found ${members.length} member(s) currently online');
     return createTextResponse('```${members.join('\n')}```');

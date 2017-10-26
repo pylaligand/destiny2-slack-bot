@@ -9,5 +9,17 @@ class BotConfig {
   String apiKey;
 
   @Property()
-  Map<String, int> clanIds = {};
+  Map<String, Clan> clans = {};
+}
+
+/// Description of a clan.
+@Entity()
+class Clan {
+  @Property()
+  int id;
+
+  @Property()
+  String leader;
+
+  String get url => 'https://www.bungie.net/en/ClanV2?groupid=$id';
 }
