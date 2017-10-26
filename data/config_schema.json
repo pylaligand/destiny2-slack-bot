@@ -5,13 +5,23 @@
       "description": "The Bungie API key",
       "type": "string"
     },
-    "clanIds": {
-      "description": "Clan IDs for the various gaming platforms; if a platform is missing, commands will disregard it",
+    "clans": {
+      "description": "The clans on the various gaming platforms; if a platform is missing, commands will disregard it",
       "type": "object",
       "patternProperties": {
         "^xb|pc|ps$": {
           "description": "Clan id for the platform",
-          "type": "integer"
+          "type": "object",
+          "properties": {
+            "leader": {
+              "description": "Slack ID of the clan leader",
+              "type": "string"
+            },
+            "id": {
+              "description": "Bungie ID of the clan",
+              "type": "integer"
+            }
+          }
         }
       },
       "minProperties": 1
