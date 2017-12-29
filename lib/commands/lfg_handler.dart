@@ -12,8 +12,6 @@ import '../gaming_platform.dart';
 import '../query_parameters.dart' as param;
 import 'options.dart' as option;
 
-enum _Platform { xbox, pc, playstation, all }
-
 const _COLORS = const ['#4285f4', '#f4b400', '#0f9d58', '#db4437'];
 
 /// Lists LFG games from the100.io.
@@ -26,6 +24,7 @@ class LfgHandler extends SlackCommandHandler {
     final SlackClient slackClient = params[SLACK_CLIENT];
     final String text = params[SLACK_TEXT];
     final String userName = params[SLACK_USERNAME];
+    final userId = params[SLACK_USER_ID];
     _log.info('LFG listings requested by $userName');
 
     final BotConfig config = params[param.CONFIG];
@@ -54,10 +53,10 @@ class LfgHandler extends SlackCommandHandler {
           'No game scheduled, wanna <${theHundredClient.gameCreationUrl}|create one>?');
     }
 
-    final userId = params[SLACK_USER_ID];
     final timezone = await slackClient.getUserTimezone(userId);
     final location =
         timezone != null ? getLocation(timezone) : theHundredClient.location;
+
     final now = new TZDateTime.now(location);
     final attachments = new Iterable.generate(games.length)
         .map((index) => _generateAttachment(games, index, now, shouldFilter))
