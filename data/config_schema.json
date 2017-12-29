@@ -1,9 +1,29 @@
 {
   "type": "object",
   "properties": {
-    "apiKey": {
-      "description": "The Bungie API key",
+    "bungieApiKey": {
+      "description": "Key to Bungie's D2 API",
       "type": "string"
+    },
+    "services": {
+      "description": "Configuration for various services",
+      "type": "object",
+      "properties": {
+        "the100": {
+          "description": "Configuration for the the100.io API",
+          "type": "object",
+          "properties": {
+            "authToken": {
+              "description": "Group authentication token",
+              "type": "string"
+            },
+            "groupId": {
+              "description": "ID of the LFG group",
+              "type": "string"
+            }
+          }
+        }
+      }
     },
     "clans": {
       "description": "The clans on the various gaming platforms; if a platform is missing, commands will disregard it",
@@ -27,6 +47,6 @@
       "minProperties": 1
     }
   },
-  "minProperties": 2,
+  "minProperties": 3,
   "additionalProperties": false
 }

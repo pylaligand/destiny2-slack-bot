@@ -6,10 +6,30 @@ import 'package:dartson/dartson.dart';
 @Entity()
 class BotConfig {
   @Property()
-  String apiKey;
+  String bungieApiKey;
+
+  @Property()
+  Services services;
 
   @Property()
   Map<String, Clan> clans = {};
+}
+
+/// Service configurations.
+@Entity()
+class Services {
+  @Property()
+  TheHundredService the100;
+}
+
+/// Configuration for the100.io.
+@Entity()
+class TheHundredService {
+  @Property()
+  String authToken;
+
+  @Property()
+  String groupId;
 }
 
 /// Description of a clan.

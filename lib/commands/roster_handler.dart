@@ -8,6 +8,7 @@ import 'package:heroku_slack_bot/heroku_slack_bot.dart';
 import '../bot_config.dart';
 import '../gaming_platform.dart';
 import '../query_parameters.dart' as param;
+import 'options.dart' as option;
 
 /// A command handler showing which clan members are currently online.
 class RosterHandler extends SlackCommandHandler {
@@ -17,8 +18,13 @@ class RosterHandler extends SlackCommandHandler {
   Future<Response> handle(Request request) async {
     final params = request.context;
     final String userName = params[SLACK_USERNAME];
+    final String text = params[SLACK_TEXT];
     _log.info('Clan roster requested by $userName');
-    final String platform = params[SLACK_TEXT];
+    if (option.isHelp(text)) {
+      _log.info('@$userName needs help');
+      return createTextResponse('View clan rosters', private: true);
+    }
+    final String platform = text;
     if (!isValidGamingPlatform(platform)) {
       return createTextResponse('Sorry, I do not know the requested platform!');
     }
@@ -28,7 +34,7 @@ class RosterHandler extends SlackCommandHandler {
           'Sorry, the clan for this platform does not exist!');
     }
     final apiClient = new ApiClient()
-      ..addDefaultHeader('X-API-Key', config.apiKey);
+      ..addDefaultHeader('X-API-Key', config.bungieApiKey);
     final members = await _getAllMembers(apiClient, config.clans[platform].id);
     final nPlaying = members.length;
     _log.info('Found $nPlaying member(s) in the clan');

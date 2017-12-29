@@ -2,9 +2,11 @@
 
 import 'package:heroku_slack_bot/heroku_slack_bot.dart';
 import 'package:logging/logging.dart';
+import 'package:timezone/standalone.dart';
 
 import '../lib/environment.dart' as env;
 import '../lib/commands/clan_handler.dart';
+import '../lib/commands/lfg_handler.dart';
 import '../lib/commands/online_handler.dart';
 import '../lib/commands/roster_handler.dart';
 import '../lib/middleware/config_provider.dart';
@@ -21,6 +23,7 @@ class Config extends ServerConfig {
           Map<String, String> environment) =>
       {
         'clan': new ClanHandler(),
+        'lfg': new LfgHandler(),
         'online': new OnlineHandler(),
         'roster': new RosterHandler(),
       };
@@ -42,6 +45,8 @@ main() async {
   // Disable Dartson's annoying logs.
   hierarchicalLoggingEnabled = true;
   new Logger('dartson')..level = Level.OFF;
+
+  await initializeTimeZone();
 
   await runServer(new Config());
 }
