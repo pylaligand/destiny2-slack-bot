@@ -20,10 +20,16 @@
             "groupId": {
               "description": "ID of the LFG group",
               "type": "string"
+            },
+            "admin": {
+              "description": "Slack ID of the group admin",
+              "type": "string"
             }
-          }
+          },
+          "additionalProperties": false
         }
-      }
+      },
+      "additionalProperties": false
     },
     "clans": {
       "description": "The clans on the various gaming platforms; if a platform is missing, commands will disregard it",
@@ -44,7 +50,9 @@
           }
         }
       },
-      "minProperties": 1
+      "minProperties": 1,
+      "maxProperties": 3,
+      "additionalProperties": false
     }
   },
   "minProperties": 3,

@@ -78,6 +78,9 @@ class TheHundredClient {
   String get gameCreationUrl =>
       'https://www.the100.io/gaming_sessions/new?group_id=$_groupId';
 
+  /// Returns the URL of the admin interface for the group.
+  String get adminUrl => 'https://www.the100.io/groups/$_groupId/edit';
+
   /// Returns the location used to set the timezone on dates.
   Location get location => _location;
 
@@ -108,6 +111,16 @@ class TheHundredClient {
   /// Returns the game with the given id, or |null| if none could be found.
   Future<Game> getGame(String id) async => (await getAllGames())
       .firstWhere((game) => game.id == id, orElse: () => null);
+
+  /// Returns the number of pending users in the group.
+  Future<int> getPendingUsers() async {
+    final url = '$_BASE/groups/$_groupId';
+    final json = await _getJson(url);
+    final List memberships = json['memberships'];
+    return memberships
+        .where((user) => !user['approved'] && !user['blocked'])
+        .length;
+  }
 
   /// Returns the response to a URL request as parsed JSON, or null if the
   /// request failed.

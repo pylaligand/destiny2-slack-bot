@@ -30,6 +30,9 @@ class TheHundredService {
 
   @Property()
   String groupId;
+
+  @Property()
+  String admin;
 }
 
 /// Description of a clan.
@@ -42,4 +45,12 @@ class Clan {
   String leader;
 
   String get url => 'https://www.bungie.net/en/ClanV2?groupid=$id';
+}
+
+/// Loads a config from the given string.
+BotConfig loadBotConfig(String json) {
+  final dson = new Dartson.JSON();
+  final config = new BotConfig();
+  dson.decode(json, config);
+  return config;
 }
