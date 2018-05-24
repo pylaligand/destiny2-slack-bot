@@ -39,22 +39,44 @@ class RosterHandler extends SlackCommandHandler {
     final nPlaying = members.length;
     _log.info('Found $nPlaying member(s) in the clan');
     final nonD2Members = <String>[];
+    final inactiveMembers = <String>[];
+    final now = new DateTime.now();
     for (GroupsV2GroupMember member in members) {
-      if (await _getLastTimePlayed(apiClient, member) == null) {
+      final lastPlayed = await _getLastTimePlayed(apiClient, member);
+      if (lastPlayed == null) {
         nonD2Members.add(member.destinyUserInfo.displayName);
+        continue;
+      }
+      if (lastPlayed.isBefore(now.subtract(const Duration(days: 30 * 6)))) {
+        inactiveMembers.add(member.destinyUserInfo.displayName);
       }
     }
     apiClient.client.close();
     final nNotPlaying = nonD2Members.length;
+    final nInactive = inactiveMembers.length;
     _log.info('Found $nNotPlaying non-playing member(s)');
+    _log.info('Found $nInactive inactive member(s)');
     nonD2Members.sort();
-    if (nonD2Members.isEmpty) {
-      return createTextResponse('All $nPlaying members have played D2!');
+    inactiveMembers.sort();
+    List<String> lines = <String>[];
+    lines.add('Found $nPlaying members in the clan.');
+    if (nonD2Members.isEmpty && inactiveMembers.isEmpty) {
+      lines.add('All $nPlaying members have been active in the last 6 months!');
     } else {
-      return createTextResponse('Out of $nPlaying clan members, ' +
-          '$nNotPlaying haven\'t played D2 yet:\n' +
-          '```${nonD2Members.join('\n')}```');
+      if (nonD2Members.isNotEmpty) {
+        lines.add('$nNotPlaying members haven\'t played D2 yet:');
+        lines.add('```');
+        lines.addAll(nonD2Members);
+        lines.add('```');
+      }
+      if (inactiveMembers.isNotEmpty) {
+        lines.add('$nInactive haven\'t played in the last 6 months:');
+        lines.add('```');
+        lines.addAll(inactiveMembers);
+        lines.add('```');
+      }
     }
+    return createTextResponse(lines.join('\n'));
   }
 
   Future<DateTime> _getLastTimePlayed(
