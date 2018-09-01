@@ -7,7 +7,7 @@ dependencies:
   destiny2_api:
     git:
       url: https://github.com/pylaligand/destiny2-dart-api-client.git
-      ref: master
+      ref: effaa03479799638f4332f09385e218a8e929b0f
   heroku_slack_bot:
     git:
       url: https://github.com/pylaligand/heroku-slack-bot.git
