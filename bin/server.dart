@@ -39,6 +39,12 @@ class Config extends ServerConfig {
         'Contacting Destiny servers... still...',
         'The Cryptarchs are on it...',
       ];
+
+  @override
+  String get errorMessage =>
+      'The line between working and not working is so very thin.\n' +
+      'It looks like this bot has crossed that line...\n' +
+      'Please refer to the Hacker Vanguard!';
 }
 
 main() async {
