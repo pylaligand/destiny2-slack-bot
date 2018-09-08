@@ -11,7 +11,7 @@ dependencies:
   heroku_slack_bot:
     git:
       url: https://github.com/pylaligand/heroku-slack-bot.git
-      ref: master
+      ref: 0665a76d5db5113c2af4de17ff1bc44805af17a1
   timezone: ^0.5.0-dev-2
 dev_dependencies:
   json_schema: 1.0.6
