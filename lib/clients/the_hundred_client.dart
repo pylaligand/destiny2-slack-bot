@@ -50,7 +50,16 @@ class Game {
   /// Returns the URL of the gaming session.
   String get url => 'https://www.the100.io/gaming_sessions/$id';
 
-  String get platformLabel => platform == GamingPlatform.xbox ? 'XB' : 'PS';
+  String get platformLabel {
+    switch (platform) {
+      case GamingPlatform.pc:
+        return 'PC';
+      case GamingPlatform.xbox:
+        return 'XB';
+      default:
+        return 'PS';
+    }
+  }
 
   @override
   String toString() => '$creator | $title | $startDate';
