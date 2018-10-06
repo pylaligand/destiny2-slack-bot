@@ -96,9 +96,7 @@ class TheHundredClient {
             game['name'],
             game['creator_gamertag'],
             TZDateTime.parse(_location, game['start_time']),
-            game['platform'].startsWith('xbox')
-                ? GamingPlatform.xbox
-                : GamingPlatform.playstation,
+            _parsePlatform(game['platform']),
             game['team_size'],
             game['primary_users_count'],
             game['confirmed_sessions']
@@ -127,5 +125,16 @@ class TheHundredClient {
   Future<dynamic> _getJson(String url) async {
     return getJson(url, _log,
         headers: {'Authorization': 'Token token="$_authToken"'});
+  }
+
+  GamingPlatform _parsePlatform(String platform) {
+    switch (platform) {
+      case 'pc':
+        return GamingPlatform.pc;
+      case 'ps4':
+        return GamingPlatform.playstation;
+      default:
+        return GamingPlatform.xbox;
+    }
   }
 }
